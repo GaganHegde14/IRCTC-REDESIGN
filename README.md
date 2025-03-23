@@ -104,11 +104,11 @@ To run the project locally, follow these steps:
 5. Login/Signup:
    Use /login or /signup to access your account with a split-screen design.
 
-   ![Landing Page](screenshots/landing-page.png)
-   ![Train Booking Page](screenshots/train-booking-page.png)
-   ![Promotions Page](screenshots/promotions-page.png)
-   ![Loyalty Page](screenshots/loyalty-page.png)
-   ![Train Card](screenshots/train-card.png)
+   ![Landing Page](/irctc-redesign/public/assets/screenshots/landing-page.png)
+   ![Train Booking Page](/irctc-redesign/public/assets/screenshots/train-booking-page.png)
+   ![Promotions Page](/irctc-redesign/public/assets/screenshots/promotions-page.png)
+   ![Loyalty Page](/irctc-redesign/public/assets/screenshots/loyalty-page.png)
+   ![Train Card](/irctc-redesign/public/assets/screenshots/train-card.png)
 
 ## Deployment
 
