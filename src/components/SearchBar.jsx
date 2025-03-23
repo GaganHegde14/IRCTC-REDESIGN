@@ -6,27 +6,12 @@ import {
   FaCalendarAlt,
   FaMapMarkerAlt,
   FaChevronDown,
-  FaChevronRight,
-  FaTimes,
   FaExchangeAlt,
   FaUserFriends,
 } from "react-icons/fa";
 import { gsap } from "gsap";
-
-const cityOptions = [
-  { name: "Delhi", code: "DEL", state: "Delhi" },
-  { name: "Mumbai", code: "BOM", state: "Maharashtra" },
-  { name: "Chennai", code: "MAA", state: "Tamil Nadu" },
-  { name: "Kolkata", code: "CCU", state: "West Bengal" },
-  { name: "Bangalore", code: "BLR", state: "Karnataka" },
-  { name: "Hyderabad", code: "HYD", state: "Telangana" },
-  { name: "Ahmedabad", code: "AMD", state: "Gujarat" },
-  { name: "Jaipur", code: "JAI", state: "Rajasthan" },
-  { name: "Varanasi", code: "VNS", state: "Uttar Pradesh" },
-  { name: "Goa", code: "GOI", state: "Goa" },
-  { name: "Lucknow", code: "LKO", state: "Uttar Pradesh" },
-  { name: "Amritsar", code: "ATQ", state: "Punjab" },
-];
+import { cityOptions } from "./cities";
+import { trainData } from "./trains";
 
 const classOptions = [
   { id: "SL", name: "Sleeper Class" },
@@ -139,7 +124,17 @@ const SearchBar = ({ onSearch }) => {
   };
 
   const handleSearch = () => {
-    if (!source || !destination) return;
+    if (!source || !destination || !date) {
+      alert("Please fill in all required fields (Source, Destination, Date).");
+      return;
+    }
+
+    const filteredTrains = trainData.filter(
+      (train) =>
+        train.source.toLowerCase() === source.toLowerCase() &&
+        train.destination.toLowerCase() === destination.toLowerCase() &&
+        train.date === date
+    );
 
     const searchParams = {
       source,
@@ -147,9 +142,12 @@ const SearchBar = ({ onSearch }) => {
       date,
       travelers,
       travelClass: travelClass.id,
+      filteredTrains,
     };
 
-    if (onSearch) onSearch(searchParams);
+    if (onSearch) {
+      onSearch(searchParams);
+    }
 
     gsap.to(".search-button", {
       scale: 0.95,
@@ -180,12 +178,12 @@ const SearchBar = ({ onSearch }) => {
   return (
     <div
       ref={searchBarRef}
-      className="w-full max-w-5xl mx-auto glass rounded-xl shadow-lg overflow-hidden"
+      className="w-full max-w-5xl mx-auto glass rounded-xl shadow-lg z-10"
     >
       <div className="p-1 sm:p-3">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-2 items-center">
           {/* Source */}
-          <div className="relative md:col-span-3">
+          <div className="relative md:col-span-3 z-50">
             <div
               ref={sourceInputRef}
               className={`glass rounded-lg p-3 h-full flex items-center space-x-2 border ${
@@ -241,7 +239,7 @@ const SearchBar = ({ onSearch }) => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.2 }}
-                  className="absolute z-30 left-0 right-0 mt-1 glass shadow-lg rounded-lg max-h-60 overflow-y-auto"
+                  className="absolute z-50 left-0 right-0 mt-2 bg-white shadow-lg rounded-lg max-h-60 overflow-y-auto border border-gray-200"
                 >
                   {filteredSourceOptions.map((city, index) => (
                     <motion.div
@@ -249,7 +247,7 @@ const SearchBar = ({ onSearch }) => {
                       initial={{ opacity: 0, y: -5 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.03 }}
-                      className="p-2.5 hover:bg-blue-50 cursor-pointer flex items-center"
+                      className="p-3 hover:bg-blue-50 cursor-pointer flex items-center transition-colors"
                       onClick={() => {
                         setSource(city.name);
                         setShowSourceOptions(false);
@@ -275,7 +273,7 @@ const SearchBar = ({ onSearch }) => {
           </div>
 
           {/* Swap Button */}
-          <div className="hidden md:flex md:col-span-1 justify-center">
+          <div className="hidden md:flex md:col-span-1 justify-center z-40">
             <motion.button
               whileHover={{ rotate: 180, scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
@@ -287,7 +285,7 @@ const SearchBar = ({ onSearch }) => {
           </div>
 
           {/* Destination */}
-          <div className="relative md:col-span-3">
+          <div className="relative md:col-span-3 z-50">
             <div
               ref={destInputRef}
               className={`glass rounded-lg p-3 h-full flex items-center space-x-2 border ${
@@ -345,7 +343,7 @@ const SearchBar = ({ onSearch }) => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.2 }}
-                  className="absolute z-30 left-0 right-0 mt-1 glass shadow-lg rounded-lg max-h-60 overflow-y-auto"
+                  className="absolute z-50 left-0 right-0 mt-2 bg-white shadow-lg rounded-lg max-h-60 overflow-y-auto border border-gray-200"
                 >
                   {filteredDestOptions.map((city, index) => (
                     <motion.div
@@ -353,7 +351,7 @@ const SearchBar = ({ onSearch }) => {
                       initial={{ opacity: 0, y: -5 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.03 }}
-                      className="p-2.5 hover:bg-blue-50 cursor-pointer flex items-center"
+                      className="p-3 hover:bg-blue-50 cursor-pointer flex items-center transition-colors"
                       onClick={() => {
                         setDestination(city.name);
                         setShowDestOptions(false);
@@ -379,7 +377,7 @@ const SearchBar = ({ onSearch }) => {
           </div>
 
           {/* Date */}
-          <div className="md:col-span-2">
+          <div className="md:col-span-2 z-40">
             <div className="glass rounded-lg p-3 border border-gray-200 hover:border-blue-300 transition-colors">
               <label className="block text-xs text-gray-500 font-medium">
                 Date
@@ -398,7 +396,7 @@ const SearchBar = ({ onSearch }) => {
           </div>
 
           {/* Travelers */}
-          <div className="md:col-span-2">
+          <div className="md:col-span-2 z-40">
             <div className="glass rounded-lg p-3 border border-gray-200 hover:border-blue-300 transition-colors">
               <label className="block text-xs text-gray-500 font-medium">
                 Travelers
@@ -429,7 +427,7 @@ const SearchBar = ({ onSearch }) => {
           </div>
 
           {/* Class */}
-          <div className="relative md:col-span-1">
+          <div className="relative md:col-span-1 z-50">
             <div
               className="glass h-full rounded-lg p-3 border border-gray-200 cursor-pointer flex items-center justify-between hover:border-blue-300 transition-colors"
               onClick={() => {
@@ -453,12 +451,12 @@ const SearchBar = ({ onSearch }) => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.2 }}
-                  className="absolute z-30 right-0 mt-1 glass shadow-lg rounded-lg w-48"
+                  className="absolute z-50 right-0 mt-2 bg-white shadow-lg rounded-lg w-48 border border-gray-200"
                 >
                   {classOptions.map((option) => (
                     <div
                       key={option.id}
-                      className="p-2 hover:bg-blue-50 cursor-pointer"
+                      className="p-3 hover:bg-blue-50 cursor-pointer transition-colors"
                       onClick={() => {
                         setTravelClass(option);
                         setShowClassOptions(false);
@@ -480,7 +478,7 @@ const SearchBar = ({ onSearch }) => {
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             onClick={handleSearch}
-            className="search-button md:col-span-12 lg:col-span-12 mt-2 md:mt-3 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium flex items-center justify-center gap-2 shadow-md"
+            className="search-button md:col-span-12 lg:col-span-12 mt-2 md:mt-3 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium flex items-center justify-center gap-2 shadow-md z-40"
           >
             <FaSearch />
             <span>Search Trains</span>

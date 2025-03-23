@@ -1,26 +1,65 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   FaTrain,
   FaCalendarAlt,
   FaMapMarkerAlt,
   FaCreditCard,
+  FaCheckCircle,
 } from "react-icons/fa";
+import { motion, AnimatePresence } from "framer-motion";
 import SeatSelector from "../components/SeatSelector";
 import toast from "react-hot-toast";
+import { cityOptions } from "../components/cities";
 
 const trainClasses = ["AC First Class", "AC 2-Tier", "Sleeper", "General"];
 const travelDates = ["2025-04-01", "2025-04-02", "2025-04-03"];
 
 const TrainBookingPage = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // Read train data from URL query parameters
+  const queryParams = new URLSearchParams(location.search);
+  const trainData = {
+    trainNumber: queryParams.get("trainNumber") || "",
+    trainName: queryParams.get("trainName") || "",
+    departure: queryParams.get("departure") || "",
+    arrival: queryParams.get("arrival") || "",
+    date: queryParams.get("date") || "",
+  };
+
+  // Debug: Log the received query parameters
+  // useEffect(() => {
+  //   console.log(
+  //     "Query parameters in TrainBookingPage:",
+  //     Object.fromEntries(queryParams)
+  //   );
+  //   console.log("Train data:", trainData);
+  // }, [queryParams]);
+
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
-    from: "",
-    to: "",
-    date: "",
+    from: trainData.departure || "",
+    to: trainData.arrival || "",
+    date: trainData.date || "",
     trainClass: "",
     seats: [],
     fare: 0,
+    trainNumber: trainData.trainNumber || "",
+    trainName: trainData.trainName || "",
   });
+  const [showFromOptions, setShowFromOptions] = useState(false);
+  const [showToOptions, setShowToOptions] = useState(false);
+  const [bookingConfirmed, setBookingConfirmed] = useState(false);
+
+  // Redirect to home if critical train data is missing
+  useEffect(() => {
+    if (!trainData.trainNumber || !trainData.trainName) {
+      toast.error("Please select a train to book.");
+      navigate("/");
+    }
+  }, [trainData, navigate]);
 
   const handleNextStep = () => {
     if (
@@ -34,7 +73,13 @@ const TrainBookingPage = () => {
   };
 
   const updateFare = (selectedSeats) => {
-    const baseFare = formData.trainClass.includes("AC") ? 1000 : 500;
+    const baseFare =
+      {
+        "AC First Class": 2000,
+        "AC 2-Tier": 1500,
+        Sleeper: 800,
+        General: 500,
+      }[formData.trainClass] || 500;
     setFormData({
       ...formData,
       seats: selectedSeats,
@@ -42,9 +87,74 @@ const TrainBookingPage = () => {
     });
   };
 
+  const handlePayment = () => {
+    setTimeout(() => {
+      setBookingConfirmed(true);
+    }, 1000);
+  };
+
+  const filteredFromOptions = cityOptions.filter(
+    (city) =>
+      city.name.toLowerCase().includes(formData.from.toLowerCase()) &&
+      city.name.toLowerCase() !== formData.to.toLowerCase()
+  );
+
+  const filteredToOptions = cityOptions.filter(
+    (city) =>
+      city.name.toLowerCase().includes(formData.to.toLowerCase()) &&
+      city.name.toLowerCase() !== formData.from.toLowerCase()
+  );
+
+  if (bookingConfirmed) {
+    return (
+      <section className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className="bg-white p-8 rounded-lg shadow-lg max-w-md mx-auto text-center"
+        >
+          <FaCheckCircle className="text-green-500 text-6xl mb-4 mx-auto" />
+          <h2 className="text-3xl font-bold text-gray-800 mb-4">
+            Booking Confirmed!
+          </h2>
+          <p className="text-lg text-gray-600 mb-2">
+            Your train ticket has been successfully booked.
+          </p>
+          <p className="text-lg text-gray-600 mb-2">
+            <span className="font-semibold">Train:</span> {formData.trainName} (
+            {formData.trainNumber})
+          </p>
+          <p className="text-lg text-gray-600 mb-2">
+            <span className="font-semibold">From:</span> {formData.from}{" "}
+            <span className="font-semibold">To:</span> {formData.to}
+          </p>
+          <p className="text-lg text-gray-600 mb-2">
+            <span className="font-semibold">Date:</span> {formData.date}
+          </p>
+          <p className="text-lg text-gray-600 mb-2">
+            <span className="font-semibold">Class:</span> {formData.trainClass}
+          </p>
+          <p className="text-lg text-gray-600 mb-2">
+            <span className="font-semibold">Seats:</span>{" "}
+            {formData.seats.join(", ")}
+          </p>
+          <p className="text-lg text-gray-600 mb-6">
+            <span className="font-semibold">Total Fare:</span> ₹{formData.fare}
+          </p>
+          <button
+            onClick={() => navigate("/")}
+            className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-lg font-medium transition-colors"
+          >
+            Back to Home
+          </button>
+        </motion.div>
+      </section>
+    );
+  }
+
   return (
     <section className="min-h-screen bg-gray-50">
-      {/* Hero Section with Moving Train */}
       <div className="relative h-[400px] bg-gradient-to-r from-blue-900 to-blue-600 text-white flex items-center justify-center overflow-hidden">
         <div className="absolute bottom-0 left-0 w-full h-20 moving-train">
           <div className="train">
@@ -61,7 +171,6 @@ const TrainBookingPage = () => {
         </div>
       </div>
 
-      {/* Booking Steps */}
       <div className="container mx-auto px-4 py-12">
         <div className="flex flex-col sm:flex-row justify-between mb-12 gap-4">
           {[1, 2, 3].map((s) => (
@@ -84,14 +193,13 @@ const TrainBookingPage = () => {
           ))}
         </div>
 
-        {/* Step 1: Journey Details */}
         {step === 1 && (
-          <div className="bg-white p-8 rounded-lg shadow-lg max-w-2xl mx-auto animate-slide-up">
+          <div className="bg-white p-8 rounded-lg shadow-lg max-w-2xl mx-auto animate-slide-up relative z-10">
             <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
               Enter Journey Details
             </h2>
             <div className="space-y-6">
-              <div>
+              <div className="relative">
                 <label className="block text-sm text-gray-500 mb-2">From</label>
                 <div className="relative">
                   <FaMapMarkerAlt className="absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-400" />
@@ -102,11 +210,50 @@ const TrainBookingPage = () => {
                     onChange={(e) =>
                       setFormData({ ...formData, from: e.target.value })
                     }
+                    onFocus={() => setShowFromOptions(true)}
                     className="w-full pl-10 p-3 rounded-lg border border-gray-200 hover:border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors text-gray-900"
                   />
                 </div>
+                <AnimatePresence>
+                  {showFromOptions && filteredFromOptions.length > 0 && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute z-50 left-0 right-0 mt-2 bg-white shadow-lg rounded-lg max-h-60 overflow-y-auto border border-gray-200"
+                    >
+                      {filteredFromOptions.map((city, index) => (
+                        <motion.div
+                          key={city.code}
+                          initial={{ opacity: 0, y: -5 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: index * 0.03 }}
+                          className="p-3 hover:bg-blue-50 cursor-pointer flex items-center transition-colors"
+                          onClick={() => {
+                            setFormData({ ...formData, from: city.name });
+                            setShowFromOptions(false);
+                          }}
+                        >
+                          <div className="ml-2">
+                            <div className="font-medium text-gray-900">
+                              {city.name}
+                            </div>
+                            <div className="text-xs text-gray-500 flex items-center">
+                              <span className="bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded text-xs font-medium">
+                                {city.code}
+                              </span>
+                              <span className="mx-1">•</span>
+                              <span>{city.state}</span>
+                            </div>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
-              <div>
+              <div className="relative">
                 <label className="block text-sm text-gray-500 mb-2">To</label>
                 <div className="relative">
                   <FaMapMarkerAlt className="absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-400" />
@@ -117,9 +264,48 @@ const TrainBookingPage = () => {
                     onChange={(e) =>
                       setFormData({ ...formData, to: e.target.value })
                     }
+                    onFocus={() => setShowToOptions(true)}
                     className="w-full pl-10 p-3 rounded-lg border border-gray-200 hover:border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors text-gray-900"
                   />
                 </div>
+                <AnimatePresence>
+                  {showToOptions && filteredToOptions.length > 0 && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute z-50 left-0 right-0 mt-2 bg-white shadow-lg rounded-lg max-h-60 overflow-y-auto border border-gray-200"
+                    >
+                      {filteredToOptions.map((city, index) => (
+                        <motion.div
+                          key={city.code}
+                          initial={{ opacity: 0, y: -5 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: index * 0.03 }}
+                          className="p-3 hover:bg-blue-50 cursor-pointer flex items-center transition-colors"
+                          onClick={() => {
+                            setFormData({ ...formData, to: city.name });
+                            setShowToOptions(false);
+                          }}
+                        >
+                          <div className="ml-2">
+                            <div className="font-medium text-gray-900">
+                              {city.name}
+                            </div>
+                            <div className="text-xs text-gray-500 flex items-center">
+                              <span className="bg-red-100 text-red-700 px-1.5 py-0.5 rounded text-xs font-medium">
+                                {city.code}
+                              </span>
+                              <span className="mx-1">•</span>
+                              <span>{city.state}</span>
+                            </div>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
               <div>
                 <label className="block text-sm text-gray-500 mb-2">
@@ -175,7 +361,6 @@ const TrainBookingPage = () => {
           </div>
         )}
 
-        {/* Step 2: Seat Selection */}
         {step === 2 && (
           <div className="bg-white p-8 rounded-lg shadow-lg max-w-4xl mx-auto animate-slide-up">
             <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
@@ -194,13 +379,16 @@ const TrainBookingPage = () => {
           </div>
         )}
 
-        {/* Step 3: Booking Summary */}
         {step === 3 && (
           <div className="bg-white p-8 rounded-lg shadow-lg max-w-2xl mx-auto animate-slide-up">
             <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
               Booking Summary
             </h2>
             <div className="space-y-4">
+              <p className="text-lg">
+                <span className="font-semibold">Train:</span>{" "}
+                {formData.trainName} ({formData.trainNumber})
+              </p>
               <p className="text-lg">
                 <span className="font-semibold">From:</span> {formData.from}
               </p>
@@ -223,14 +411,16 @@ const TrainBookingPage = () => {
                 {formData.fare}
               </p>
             </div>
-            <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium transition-colors mt-6">
+            <button
+              onClick={handlePayment}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium transition-colors mt-6"
+            >
               <FaCreditCard className="inline mr-2" /> Proceed to Payment
             </button>
           </div>
         )}
       </div>
 
-      {/* Travel Classes Section */}
       <div className="bg-white py-12">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">

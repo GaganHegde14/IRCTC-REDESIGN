@@ -26,7 +26,7 @@ const ContactPage = () => {
           validationSchema={validationSchema}
           onSubmit={(values) => {
             toast.success("Message sent successfully!");
-            console.log(values);
+            // console.log(values);
           }}
         >
           <Form>

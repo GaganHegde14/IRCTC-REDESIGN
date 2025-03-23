@@ -54,7 +54,7 @@ const LoginPage = () => {
             </h2>
             <Formik
               initialValues={{ username: "", password: "" }}
-              onSubmit={(values) => console.log(values)}
+              // onSubmit={(values) => console.log(values)}
             >
               {({ isSubmitting }) => (
                 <Form className="space-y-6">

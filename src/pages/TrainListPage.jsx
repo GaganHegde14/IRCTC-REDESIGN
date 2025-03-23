@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
   FaFilter,
@@ -12,109 +12,12 @@ import {
   FaChevronUp,
   FaClock,
   FaRupeeSign,
+  FaArrowLeft,
+  FaArrowRight,
 } from "react-icons/fa";
 import TrainCard from "../components/TrainCard";
-
-// Sample train data
-const allTrains = [
-  {
-    trainNumber: "12952",
-    trainName: "Mumbai Rajdhani",
-    departure: "Delhi",
-    departureTime: "16:25",
-    arrival: "Mumbai",
-    arrivalTime: "08:15",
-    duration: "15:50",
-    price: 1500,
-    availability: "Available",
-    classes: [
-      { type: "SL", price: 750, availability: "Available" },
-      { type: "3A", price: 1200, availability: "Available" },
-      { type: "2A", price: 2200, availability: "WL 5" },
-      { type: "1A", price: 3800, availability: "Available" },
-    ],
-  },
-  {
-    trainNumber: "12310",
-    trainName: "New Delhi - Rajendra Nagar Tejas Rajdhani",
-    departure: "New Delhi",
-    departureTime: "17:15",
-    arrival: "Patna",
-    arrivalTime: "07:40",
-    duration: "14:25",
-    price: 1700,
-    availability: "RAC",
-    classes: [
-      { type: "3A", price: 1350, availability: "RAC 12" },
-      { type: "2A", price: 2350, availability: "Available" },
-      { type: "1A", price: 4100, availability: "Available" },
-    ],
-  },
-  {
-    trainNumber: "12302",
-    trainName: "Howrah Rajdhani",
-    departure: "New Delhi",
-    departureTime: "16:55",
-    arrival: "Howrah",
-    arrivalTime: "09:55",
-    duration: "17:00",
-    price: 1850,
-    availability: "WL 12",
-    classes: [
-      { type: "3A", price: 1450, availability: "WL 12" },
-      { type: "2A", price: 2600, availability: "WL 4" },
-      { type: "1A", price: 4400, availability: "Available" },
-    ],
-  },
-  {
-    trainNumber: "22691",
-    trainName: "Rajdhani Express",
-    departure: "Bengaluru",
-    departureTime: "20:00",
-    arrival: "Delhi",
-    arrivalTime: "05:55",
-    duration: "33:55",
-    price: 2200,
-    availability: "Available",
-    classes: [
-      { type: "SL", price: 1050, availability: "Available" },
-      { type: "3A", price: 1750, availability: "Available" },
-      { type: "2A", price: 2950, availability: "Available" },
-    ],
-  },
-  {
-    trainNumber: "12951",
-    trainName: "Mumbai Rajdhani",
-    departure: "Mumbai Central",
-    departureTime: "17:30",
-    arrival: "New Delhi",
-    arrivalTime: "08:35",
-    duration: "15:05",
-    price: 1500,
-    availability: "Available",
-    classes: [
-      { type: "3A", price: 1200, availability: "Available" },
-      { type: "2A", price: 2200, availability: "Available" },
-      { type: "1A", price: 3800, availability: "Available" },
-    ],
-  },
-  {
-    trainNumber: "12301",
-    trainName: "Howrah Rajdhani",
-    departure: "Howrah",
-    departureTime: "16:05",
-    arrival: "New Delhi",
-    arrivalTime: "10:00",
-    duration: "17:55",
-    price: 1850,
-    availability: "RAC",
-    classes: [
-      { type: "3A", price: 1450, availability: "RAC 8" },
-      { type: "2A", price: 2600, availability: "Available" },
-      { type: "1A", price: 4400, availability: "Available" },
-    ],
-  },
-];
+import { cityOptions } from "../components/cities";
+import { trainData } from "../components/trains";
 
 // Filter options
 const classOptions = [
@@ -142,13 +45,33 @@ const TrainListPage = () => {
   const [availabilityFilter, setAvailabilityFilter] = useState("");
   const [sortOption, setSortOption] = useState("departureTime");
   const [sortDirection, setSortDirection] = useState("asc");
+  const [showSourceOptions, setShowSourceOptions] = useState(false);
+  const [showDestOptions, setShowDestOptions] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1); // Pagination: Current page
+  const [trainsPerPage] = useState(10); // Pagination: Trains per page
 
   // Simulate loading trains data from API
   useEffect(() => {
     setLoading(true);
-    // Simulate API request delay
     setTimeout(() => {
-      setTrains(allTrains);
+      const formattedTrains = trainData.map((train) => ({
+        trainNumber: train.trainNumber,
+        trainName: train.trainName,
+        departure: train.source,
+        departureTime: "16:25",
+        arrival: train.destination,
+        arrivalTime: "08:15",
+        duration: "15:50",
+        price: 1500,
+        availability: "Available",
+        classes: [
+          { type: "SL", price: 750, availability: "Available" },
+          { type: "3A", price: 1200, availability: "Available" },
+          { type: "2A", price: 2200, availability: "WL 5" },
+          { type: "1A", price: 3800, availability: "Available" },
+        ],
+      }));
+      setTrains(formattedTrains);
       setLoading(false);
     }, 1000);
   }, []);
@@ -196,9 +119,35 @@ const TrainListPage = () => {
       return sortDirection === "asc" ? comparison : -comparison;
     });
 
+  // Pagination logic
+  const indexOfLastTrain = currentPage * trainsPerPage;
+  const indexOfFirstTrain = indexOfLastTrain - trainsPerPage;
+  const currentTrains = filteredAndSortedTrains.slice(
+    indexOfFirstTrain,
+    indexOfLastTrain
+  );
+  const totalPages = Math.ceil(filteredAndSortedTrains.length / trainsPerPage);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to top on page change
+  };
+
   const toggleSortDirection = () => {
     setSortDirection(sortDirection === "asc" ? "desc" : "asc");
   };
+
+  const filteredSourceOptions = cityOptions.filter(
+    (city) =>
+      city.name.toLowerCase().includes(sourceFilter.toLowerCase()) &&
+      city.name.toLowerCase() !== destinationFilter.toLowerCase()
+  );
+
+  const filteredDestOptions = cityOptions.filter(
+    (city) =>
+      city.name.toLowerCase().includes(destinationFilter.toLowerCase()) &&
+      city.name.toLowerCase() !== sourceFilter.toLowerCase()
+  );
 
   return (
     <div className="bg-gray-50 min-h-screen py-6">
@@ -214,7 +163,7 @@ const TrainListPage = () => {
         </div>
 
         {/* Filters section */}
-        <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
+        <div className="bg-white rounded-lg shadow-sm p-4 mb-6 relative z-10">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold">Filters & Sort Options</h2>
             <button
@@ -237,7 +186,7 @@ const TrainListPage = () => {
             <div className="border-t border-gray-200 pt-4">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
                 {/* Source filter */}
-                <div>
+                <div className="relative">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     From Station
                   </label>
@@ -248,13 +197,52 @@ const TrainListPage = () => {
                       placeholder="Source station"
                       value={sourceFilter}
                       onChange={(e) => setSourceFilter(e.target.value)}
+                      onFocus={() => setShowSourceOptions(true)}
                       className="pl-10 w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
                     />
                   </div>
+                  <AnimatePresence>
+                    {showSourceOptions && filteredSourceOptions.length > 0 && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.2 }}
+                        className="absolute z-50 left-0 right-0 mt-2 bg-white shadow-lg rounded-lg max-h-60 overflow-y-auto border border-gray-200"
+                      >
+                        {filteredSourceOptions.map((city, index) => (
+                          <motion.div
+                            key={city.code}
+                            initial={{ opacity: 0, y: -5 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: index * 0.03 }}
+                            className="p-3 hover:bg-blue-50 cursor-pointer flex items-center transition-colors"
+                            onClick={() => {
+                              setSourceFilter(city.name);
+                              setShowSourceOptions(false);
+                            }}
+                          >
+                            <div className="ml-2">
+                              <div className="font-medium text-gray-900">
+                                {city.name}
+                              </div>
+                              <div className="text-xs text-gray-500 flex items-center">
+                                <span className="bg-blue-100 text-blue-700 px-1.5 py-0.5 rounded text-xs font-medium">
+                                  {city.code}
+                                </span>
+                                <span className="mx-1">•</span>
+                                <span>{city.state}</span>
+                              </div>
+                            </div>
+                          </motion.div>
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
 
                 {/* Destination filter */}
-                <div>
+                <div className="relative">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     To Station
                   </label>
@@ -265,9 +253,48 @@ const TrainListPage = () => {
                       placeholder="Destination station"
                       value={destinationFilter}
                       onChange={(e) => setDestinationFilter(e.target.value)}
+                      onFocus={() => setShowDestOptions(true)}
                       className="pl-10 w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
                     />
                   </div>
+                  <AnimatePresence>
+                    {showDestOptions && filteredDestOptions.length > 0 && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.2 }}
+                        className="absolute z-50 left-0 right-0 mt-2 bg-white shadow-lg rounded-lg max-h-60 overflow-y-auto border border-gray-200"
+                      >
+                        {filteredDestOptions.map((city, index) => (
+                          <motion.div
+                            key={city.code}
+                            initial={{ opacity: 0, y: -5 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: index * 0.03 }}
+                            className="p-3 hover:bg-blue-50 cursor-pointer flex items-center transition-colors"
+                            onClick={() => {
+                              setDestinationFilter(city.name);
+                              setShowDestOptions(false);
+                            }}
+                          >
+                            <div className="ml-2">
+                              <div className="font-medium text-gray-900">
+                                {city.name}
+                              </div>
+                              <div className="text-xs text-gray-500 flex items-center">
+                                <span className="bg-red-100 text-red-700 px-1.5 py-0.5 rounded text-xs font-medium">
+                                  {city.code}
+                                </span>
+                                <span className="mx-1">•</span>
+                                <span>{city.state}</span>
+                              </div>
+                            </div>
+                          </motion.div>
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
 
                 {/* Class filter */}
@@ -342,6 +369,7 @@ const TrainListPage = () => {
                     setAvailabilityFilter("");
                     setSortOption("departureTime");
                     setSortDirection("asc");
+                    setCurrentPage(1); // Reset to first page on filter reset
                   }}
                   className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors"
                 >
@@ -355,13 +383,11 @@ const TrainListPage = () => {
         {/* Trains listing */}
         <div className="space-y-4">
           {loading ? (
-            // Loading state
             <div className="flex flex-col items-center justify-center py-12">
               <div className="w-16 h-16 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mb-4"></div>
               <p className="text-gray-600">Loading trains...</p>
             </div>
           ) : filteredAndSortedTrains.length === 0 ? (
-            // No results state
             <div className="bg-white rounded-lg shadow-sm p-8 text-center">
               <svg
                 className="w-16 h-16 text-gray-400 mx-auto mb-4"
@@ -384,17 +410,19 @@ const TrainListPage = () => {
               </p>
             </div>
           ) : (
-            // Results list
             <>
               <p className="text-sm text-gray-600 mb-2">
-                Showing {filteredAndSortedTrains.length} trains
+                Showing {indexOfFirstTrain + 1} to{" "}
+                {Math.min(indexOfLastTrain, filteredAndSortedTrains.length)} of{" "}
+                {filteredAndSortedTrains.length} trains
               </p>
-              {filteredAndSortedTrains.map((train, index) => (
+              {currentTrains.map((train, index) => (
                 <motion.div
                   key={train.trainNumber}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: index * 0.1 }}
+                  className="relative bg-white p-4 rounded-lg shadow-md mb-4"
                 >
                   <TrainCard
                     trainNumber={train.trainNumber}
@@ -415,8 +443,50 @@ const TrainListPage = () => {
                     }
                     classes={train.classes}
                   />
+                  <Link
+                    to={{
+                      pathname: "/book",
+                      search: `?trainNumber=${train.trainNumber}&trainName=${train.trainName}&departure=${train.departure}&arrival=${train.arrival}&date=2025-04-01`,
+                    }}
+                    className="absolute bottom-4 right-4 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700"
+                  >
+                    Book Now
+                  </Link>
                 </motion.div>
               ))}
+
+              {/* Pagination Controls */}
+              <div className="flex justify-center items-center space-x-2 mt-6">
+                <button
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  className="p-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <FaArrowLeft />
+                </button>
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                  (page) => (
+                    <button
+                      key={page}
+                      onClick={() => handlePageChange(page)}
+                      className={`px-4 py-2 rounded-md ${
+                        currentPage === page
+                          ? "bg-blue-600 text-white"
+                          : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                      }`}
+                    >
+                      {page}
+                    </button>
+                  )
+                )}
+                <button
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                  className="p-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <FaArrowRight />
+                </button>
+              </div>
             </>
           )}
         </div>

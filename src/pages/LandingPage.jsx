@@ -107,26 +107,29 @@ const holidayPackages = [
   {
     title: "Maharajas' Express",
     description: "Redefining Royalty, Luxury and Comfort...",
-    image: "https://www.irctc.co.in/nget/assets/images/exterior_maharaja.jpg",
-    link: "/maharajas-express",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSy_DK8jdjHtLlcOvKlpv01r6FSCfvMqIxmg&s",
+    link: "/trains",
   },
   {
     title: "International Packages",
     description: "Best deals in International Holiday packages...",
-    image: "https://www.irctc.co.in/nget/assets/images/Thailand.jpg",
-    link: "/international-packages",
+    image:
+      "https://sandpebblestours.com/wp-content/uploads/2018/07/world_tour.jpg",
+    link: "/flights",
   },
   {
     title: "Domestic Air Packages",
     description: "Be it the spiritual devotee seeking blessings...",
-    image: "https://www.irctc.co.in/nget/assets/images/Kashmir.jpg",
-    link: "/domestic-packages",
+    image:
+      "https://www.easemytrip.com/images/offer-img/emtnow-27jun22-mob.webp",
+    link: "/flights",
   },
 ];
 
 const LandingPage = () => {
+  const [searchResults, setSearchResults] = useState([]);
   const [showBackToTop, setShowBackToTop] = useState(false);
-  const [searchParams, setSearchParams] = useState(null);
   const heroRef = useRef(null);
   const serviceRef = useRef(null);
   const routesRef = useRef(null);
@@ -138,9 +141,9 @@ const LandingPage = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleSearch = (params) => {
-    setSearchParams(params);
-    console.log("Search params:", params);
+  const handleSearch = (searchParams) => {
+    const { filteredTrains } = searchParams;
+    setSearchResults(filteredTrains);
   };
 
   const scrollToTop = () => {
@@ -162,7 +165,7 @@ const LandingPage = () => {
                   e.target.src =
                     "https://via.placeholder.com/1200x400?text=Indian+Railways";
                 }}
-                onLoad={() => console.log("Image loaded successfully")}
+                // onLoad={() => console.log("Image loaded successfully")}
               />
               <div className="absolute inset-0 bg-gradient-to-r from-blue-900/70 to-transparent">
                 <div className="flex flex-col h-full justify-center p-8 md:w-2/3 text-white">
@@ -182,13 +185,13 @@ const LandingPage = () => {
 
             <div className="grid grid-cols-2 gap-3 mb-4">
               <Link
-                to="/pnr-status"
+                to="/track"
                 className="flex items-center justify-center gap-2 bg-blue-800 text-white py-4 rounded-md font-medium"
               >
                 <span>PNR STATUS</span>
               </Link>
               <Link
-                to="/charts"
+                to="/track"
                 className="flex items-center justify-center gap-2 bg-blue-800 text-white py-4 rounded-md font-medium"
               >
                 <span>CHARTS / VACANCY</span>
@@ -200,7 +203,44 @@ const LandingPage = () => {
                 BOOK TICKET
               </h2>
               <div className="w-full">
-                <SearchBar onSearch={handleSearch} />
+                <div>
+                  <SearchBar onSearch={handleSearch} />
+                  <div className="container mx-auto mt-8">
+                    {searchResults.length > 0 ? (
+                      searchResults.map((train) => (
+                        <div
+                          key={train.id}
+                          className="bg-white p-4 rounded-lg shadow-md flex justify-between items-center mb-4"
+                        >
+                          <TrainCard
+                            trainNumber={train.trainNumber}
+                            trainName={train.trainName}
+                            departure={train.source}
+                            arrival={train.destination}
+                            date={train.date}
+                            departureTime="16:05"
+                            arrivalTime="10:00"
+                            duration="17:55"
+                            price={1850}
+                          />
+                          <Link
+                            to={{
+                              pathname: "/book",
+                              search: `?trainNumber=${train.trainNumber}&trainName=${train.trainName}&departure=${train.source}&arrival=${train.destination}&date=${train.date}`,
+                            }}
+                            className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700"
+                          >
+                            Book Now
+                          </Link>
+                        </div>
+                      ))
+                    ) : (
+                      <p className="text-center text-gray-500">
+                        No trains found.
+                      </p>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -303,17 +343,30 @@ const LandingPage = () => {
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {popularRoutes.map((route, index) => (
-              <TrainCard
+              <div
                 key={index}
-                trainNumber={route.trainNumber}
-                trainName={route.trainName}
-                departure={route.from}
-                departureTime={route.departureTime}
-                arrival={route.to}
-                arrivalTime={route.arrivalTime}
-                duration={route.duration}
-                price={route.price}
-              />
+                className="bg-white p-4 rounded-lg shadow-md flex justify-between items-center"
+              >
+                <TrainCard
+                  trainNumber={route.trainNumber}
+                  trainName={route.trainName}
+                  departure={route.from}
+                  departureTime={route.departureTime}
+                  arrival={route.to}
+                  arrivalTime={route.arrivalTime}
+                  duration={route.duration}
+                  price={route.price}
+                />
+                <Link
+                  to={{
+                    pathname: "/book",
+                    search: `?trainNumber=${route.trainNumber}&trainName=${route.trainName}&departure=${route.from}&arrival=${route.to}&date=2025-04-01`,
+                  }}
+                  className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700"
+                >
+                  Book Now
+                </Link>
+              </div>
             ))}
           </div>
           <div className="text-center mt-8">

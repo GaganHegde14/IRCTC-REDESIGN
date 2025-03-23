@@ -36,7 +36,7 @@ const PaymentPage = () => {
           validationSchema={validationSchema}
           onSubmit={(values) => {
             toast.success("Payment successful!");
-            console.log(values);
+            // console.log(values);
           }}
         >
           <Form>

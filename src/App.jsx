@@ -97,7 +97,6 @@ function AppContent() {
           <Route path="/book" element={<TrainBookingPage />} />
           <Route path="/trains" element={<TrainListPage />} />
           <Route path="/track" element={<TrackTrainPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
           <Route path="/payment" element={<PaymentPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/loyalty" element={<LoyaltyPage />} />

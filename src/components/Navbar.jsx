@@ -40,8 +40,9 @@ const Navbar = () => {
   };
 
   const mainNavItems = [
-    { to: "/irctc-exclusive", text: "IRCTC EXCLUSIVE", isDropdown: false },
+    { to: "/", text: "HOME", isDropdown: false },
     { to: "/trains", text: "TRAINS", isDropdown: false },
+    { to: "/track", text: "TRACK", isDropdown: false },
     { to: "/loyalty", text: "LOYALTY", isDropdown: false },
     { to: "/ewallet", text: "IRCTC eWallet", isDropdown: false },
     { to: "/buses", text: "BUSES", isDropdown: false },
@@ -50,17 +51,13 @@ const Navbar = () => {
     { to: "/holidays", text: "HOLIDAYS", isDropdown: false },
     { to: "/meals", text: "MEALS", isDropdown: false },
     { to: "/promotions", text: "PROMOTIONS", isDropdown: false },
-    { to: "/more", text: "MORE", isDropdown: true },
   ];
 
   const secondaryNavItems = [
     { to: "/login", text: "LOGIN", isImportant: true },
-    { to: "/register", text: "REGISTER", isImportant: false },
+    { to: "/signup", text: "REGISTER", isImportant: false },
     { to: "/agent-login", text: "AGENT LOGIN", isImportant: false },
     { to: "/contact", text: "CONTACT US", isImportant: false },
-    { to: "/help", text: "HELP & SUPPORT", isImportant: false },
-    { to: "/deals", text: "DAILY DEALS", isImportant: true, isSpecial: true },
-    { to: "/alerts", text: "ALERTS", isImportant: false, isSpecial: true },
   ];
 
   const getCurrentDate = () => {

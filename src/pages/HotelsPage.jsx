@@ -333,40 +333,7 @@ const HotelsPage = () => {
       </section>
 
       {/* Popular Destinations */}
-      <section className="py-12">
-        <div className="container mx-auto px-4">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">
-            Popular Destinations
-          </h2>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {popularDestinations.map((destination) => (
-              <div
-                key={destination.id}
-                className="relative overflow-hidden rounded-xl cursor-pointer group"
-                onClick={() =>
-                  setSearchParams((prev) => ({
-                    ...prev,
-                    destination: destination.name,
-                  }))
-                }
-              >
-                <div className="aspect-w-4 aspect-h-3">
-                  <img
-                    src={destination.image}
-                    alt={destination.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
-                <h3 className="absolute bottom-3 left-3 text-white font-bold text-lg">
-                  {destination.name}
-                </h3>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <section className="py-12"></section>
 
       {/* Hotel Listings Section */}
       <section className="py-8 pb-16">

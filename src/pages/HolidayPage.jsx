@@ -70,7 +70,11 @@ const HolidayPage = () => {
             >
               <div className="h-48 bg-gray-200 flex items-center justify-center">
                 <span className="text-gray-500">
-                  [Image Placeholder: {pkg.destination}]
+                  <img
+                    src="https://assets.thehansindia.com/h-upload/2020/12/29/1021514-holiday.webp"
+                    alt=""
+                    srcset=""
+                  />
                 </span>
               </div>
               <div className="p-6">

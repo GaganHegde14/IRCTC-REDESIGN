@@ -75,14 +75,14 @@ const rewardItems = [
     title: "Companion Discount Voucher",
     points: 2000,
     image:
-      "https://images.unsplash.com/photo-1515552726023-7125c8d07fb1?q=80&w=2069",
+      "https://previews.123rf.com/images/pikepicture/pikepicture1712/pikepicture171200054/91128229-voucher-design-vector-horizontal-discount-for-shopping-cards-discount-coupon-advertisement.jpg",
     category: "Discounts",
   },
   {
     title: "Airport Lounge Access",
     points: 3000,
     image:
-      "https://images.unsplash.com/photo-1572030923481-e9807313bb16?q=80&w=2070",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTD9IAE_Nr_7ZpbqMjHWwxI3dBO9kpVkVNSwQ&s",
     category: "Premium",
   },
 ];
@@ -388,100 +388,7 @@ const LoyaltyPage = () => {
       )}
 
       {/* Membership Tiers Section */}
-      <section ref={benefitsRef} className="py-12 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4 text-gray-900">
-              Membership Tiers
-            </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Unlock premium benefits as you move up the membership tiers. Each
-              level brings new perks and privileges.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-            {Object.entries(tierBenefits).map(([tier, benefits], index) => (
-              <motion.div
-                key={tier}
-                whileHover={{ y: -5 }}
-                className={`benefit-item rounded-xl overflow-hidden shadow-lg ${
-                  tier === userData.tier ? "ring-2 ring-blue-500" : ""
-                }`}
-              >
-                <div
-                  className={`p-6 ${
-                    tier === "Silver"
-                      ? "bg-gradient-to-br from-gray-200 to-gray-300"
-                      : tier === "Gold"
-                      ? "bg-gradient-to-br from-amber-200 to-amber-300"
-                      : "bg-gradient-to-br from-indigo-400 to-indigo-500 text-white"
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-xl font-bold">{tier}</h3>
-                    {tier === userData.tier && (
-                      <span className="px-2 py-1 bg-blue-600 text-white text-xs rounded-full">
-                        Current
-                      </span>
-                    )}
-                  </div>
-                  <div className="flex items-center mt-2">
-                    {Array(index + 1)
-                      .fill()
-                      .map((_, i) => (
-                        <FaStar
-                          key={i}
-                          className={`${
-                            tier === "Silver"
-                              ? "text-gray-500"
-                              : tier === "Gold"
-                              ? "text-amber-500"
-                              : "text-white"
-                          }`}
-                        />
-                      ))}
-                  </div>
-                </div>
-
-                <div className="p-6 bg-white">
-                  <ul className="space-y-3">
-                    {benefits.map((benefit, idx) => (
-                      <li key={idx} className="flex items-center">
-                        <FaCheck className="text-green-500 mr-2 flex-shrink-0" />
-                        <span>{benefit}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  {tier !== userData.tier && (
-                    <div className="mt-6 pt-4 border-t border-gray-100">
-                      {tier === userData.nextTier ? (
-                        <div>
-                          <p className="text-sm text-gray-600 mb-2">
-                            You need {userData.pointsToNextTier} more points to
-                            reach {tier}
-                          </p>
-                          <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-                            <div
-                              className="h-full bg-blue-500 rounded-full"
-                              style={{ width: `${progressPercentage}%` }}
-                            ></div>
-                          </div>
-                        </div>
-                      ) : (
-                        <p className="text-gray-500 text-sm">
-                          Continue earning points to unlock this tier
-                        </p>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <section ref={benefitsRef} className="py-12"></section>
 
       {/* Rewards Catalog Section */}
       <section ref={rewardsRef} className="py-12 bg-white">
@@ -494,31 +401,6 @@ const LoyaltyPage = () => {
               Redeem your hard-earned points for these exclusive rewards and
               experiences.
             </p>
-          </div>
-
-          {/* Categories filter */}
-          <div className="flex flex-wrap justify-center gap-2 mb-10">
-            {[
-              "All",
-              "Upgrades",
-              "Food",
-              "Booking",
-              "Services",
-              "Discounts",
-              "Premium",
-            ].map((category) => (
-              <button
-                key={category}
-                onClick={() => setActiveCategory(category)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                  activeCategory === category
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                }`}
-              >
-                {category}
-              </button>
-            ))}
           </div>
 
           {/* Rewards grid */}
@@ -565,78 +447,11 @@ const LoyaltyPage = () => {
               ))}
             </AnimatePresence>
           </div>
-
-          <div className="text-center mt-10">
-            <Link
-              to="/rewards-catalog"
-              className="inline-flex items-center text-blue-600 font-medium hover:text-blue-800"
-            >
-              View all rewards <FaChevronRight className="ml-1" />
-            </Link>
-          </div>
         </div>
       </section>
 
       {/* FAQ Section */}
-      <section ref={faqRef} className="py-12 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4 text-gray-900">
-              Frequently Asked Questions
-            </h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Got questions about our loyalty program? Find answers to commonly
-              asked questions below.
-            </p>
-          </div>
-
-          <div className="max-w-3xl mx-auto grid gap-6">
-            {[
-              {
-                question: "How do I earn points?",
-                answer:
-                  "You earn points every time you book a train ticket through IRCTC. The points vary based on your class of travel, distance, and current membership tier.",
-              },
-              {
-                question: "When do my points expire?",
-                answer:
-                  "Points expire 24 months from the date they were earned. However, Gold and Platinum members enjoy extended expiry periods.",
-              },
-              {
-                question: "Can I transfer my points to someone else?",
-                answer:
-                  "Yes, Platinum members can transfer points to family members who are also IRCTC Rewards members.",
-              },
-              {
-                question: "How long does it take for points to be credited?",
-                answer:
-                  "Points are typically credited to your account within 24-48 hours after the completion of your journey.",
-              },
-            ].map((faq, index) => (
-              <motion.div
-                key={index}
-                className="faq-item bg-white rounded-lg p-6 shadow-sm"
-                whileHover={{ scale: 1.02 }}
-                transition={{ type: "spring", stiffness: 400, damping: 10 }}
-              >
-                <h3 className="text-lg font-semibold mb-3 text-gray-800">
-                  {faq.question}
-                </h3>
-                <p className="text-gray-600">{faq.answer}</p>
-              </motion.div>
-            ))}
-          </div>
-
-          <div className="text-center mt-10">
-            <Link
-              to="/help"
-              className="inline-block px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
-            >
-              More Questions? Contact Support
-            </Link>
-          </div>
-        </div>
-      </section>
+      <section ref={faqRef} className="py-12"></section>
     </div>
   );
 };

@@ -45,28 +45,28 @@ const Footer = () => {
             </p>
             <div className="flex space-x-4 mb-6">
               <motion.a
-                href="#"
+                href="https://www.facebook.com/IRCTCofficial/"
                 whileHover={{ y: -3 }}
                 className="bg-blue-100 text-blue-600 p-2 rounded-full hover:bg-blue-600 hover:text-white transition-colors duration-300"
               >
                 <FaFacebook size={18} />
               </motion.a>
               <motion.a
-                href="#"
+                href="https://x.com/IRCTCofficial/highlights"
                 whileHover={{ y: -3 }}
                 className="bg-blue-100 text-blue-600 p-2 rounded-full hover:bg-blue-600 hover:text-white transition-colors duration-300"
               >
                 <FaTwitter size={18} />
               </motion.a>
               <motion.a
-                href="#"
+                href="https://www.instagram.com/irctc.official/?hl=en"
                 whileHover={{ y: -3 }}
                 className="bg-blue-100 text-blue-600 p-2 rounded-full hover:bg-blue-600 hover:text-white transition-colors duration-300"
               >
                 <FaInstagram size={18} />
               </motion.a>
               <motion.a
-                href="#"
+                href="https://www.linkedin.com/company/irctc/?originalSubdomain=in"
                 whileHover={{ y: -3 }}
                 className="bg-blue-100 text-blue-600 p-2 rounded-full hover:bg-blue-600 hover:text-white transition-colors duration-300"
               >
@@ -86,7 +86,6 @@ const Footer = () => {
                 { to: "/book", icon: FaTicketAlt, text: "Book Tickets" },
                 { to: "/trains", icon: FaTrain, text: "Find Trains" },
                 { to: "/track", icon: FaMapMarkerAlt, text: "Track Train" },
-                { to: "/profile", icon: FaUserShield, text: "My Account" },
                 { to: "/contact", icon: FaEnvelope, text: "Contact Us" },
               ].map((item, index) => (
                 <motion.li
