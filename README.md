@@ -72,20 +72,72 @@ To run the project locally, follow these steps:
 
 ```bash
   npm install
-
-
 ```
 
 3. **Run the Development Server**;
 
-````bash
+```bash
   npm run dev
-    ```
-````
 
-3. **Open in Browser**;
+```
 
-````bash
+4. **Open in Browser**;
+
+```bash
   http://localhost:3000
-    ```
-````
+
+```
+
+## Usage
+
+1. Homepage: Explore the landing page with a moving train animation and quick links to book tickets or view promotions.
+2. Book a Train:
+   Navigate to /book.
+   Enter journey details (from, to, date, class).
+   Select seats and proceed to payment.
+3. View Promotions:
+   Navigate to /promotions.
+   Check out exclusive offers like bonus points and free upgrades.
+4. Loyalty Program:
+   Navigate to /loyalty.
+   View rewards, membership tiers, and recent activity.
+5. Login/Signup:
+   Use /login or /signup to access your account with a split-screen design.
+
+   ![Landing Page](screenshots/landing-page.png)
+   ![Train Booking Page](screenshots/train-booking-page.png)
+   ![Promotions Page](screenshots/promotions-page.png)
+   ![Loyalty Page](screenshots/loyalty-page.png)
+   ![Train Card](screenshots/train-card.png)
+
+## Deployment
+
+The project is deployed on Vercel and can be accessed here:
+
+[🔗 Live Demo](https://irctc-co-redesign.vercel.app/)
+
+## Contributing
+
+Contributions are welcome! To contribute:
+
+1.  Fork the repository.
+2.  Create a new branch (git checkout -b feature/your-feature).
+3.  Make your changes and commit (git commit -m "Add your feature").
+4.  Push to the branch (git push origin feature/your-feature).
+5.  Open a Pull Request.
+
+Please ensure your code follows the project's coding standards and includes appropriate tests.
+
+## License
+
+This project is licensed under the MIT License. See the file for details.
+
+## Acknowledgements
+
+Tailwind CSS: For the utility-first CSS framework.
+Framer Motion: For smooth animations and transitions.
+React Hot Toast: For user-friendly notifications.
+Vercel: For seamless deployment.
+FontAwesome: For the icons used throughout the app.
+
+Built with 💻 and 🚂 by Gagan Hegde.
