@@ -55,14 +55,12 @@ const SearchBar = ({ onSearch }) => {
   const sourceInputRef = useRef(null);
   const destInputRef = useRef(null);
 
-  // Set current date as default
   useEffect(() => {
     const today = new Date();
     const formattedDate = today.toISOString().split("T")[0];
     setDate(formattedDate);
   }, []);
 
-  // Speech recognition setup
   useEffect(() => {
     const SpeechRecognition =
       window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -88,7 +86,6 @@ const SearchBar = ({ onSearch }) => {
     return () => recognition.stop();
   }, [isListening, activeInput]);
 
-  // Animate search bar on mount
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from(searchBarRef.current, {
@@ -102,7 +99,6 @@ const SearchBar = ({ onSearch }) => {
     return () => ctx.revert();
   }, []);
 
-  // Handle outside click to close dropdowns
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (searchBarRef.current && !searchBarRef.current.contains(e.target)) {
@@ -155,7 +151,6 @@ const SearchBar = ({ onSearch }) => {
 
     if (onSearch) onSearch(searchParams);
 
-    // Animate search button
     gsap.to(".search-button", {
       scale: 0.95,
       duration: 0.1,
@@ -185,7 +180,7 @@ const SearchBar = ({ onSearch }) => {
   return (
     <div
       ref={searchBarRef}
-      className="w-full max-w-5xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden"
+      className="w-full max-w-5xl mx-auto glass rounded-xl shadow-lg overflow-hidden"
     >
       <div className="p-1 sm:p-3">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-2 items-center">
@@ -193,9 +188,9 @@ const SearchBar = ({ onSearch }) => {
           <div className="relative md:col-span-3">
             <div
               ref={sourceInputRef}
-              className={`bg-gray-50 rounded-lg p-3 h-full flex items-center space-x-2 border ${
+              className={`glass rounded-lg p-3 h-full flex items-center space-x-2 border ${
                 activeInput === "source" ? "border-blue-400" : "border-gray-200"
-              }`}
+              } hover:border-blue-300 transition-colors`}
               onClick={() => {
                 setActiveInput("source");
                 setShowSourceOptions(true);
@@ -213,7 +208,7 @@ const SearchBar = ({ onSearch }) => {
                   value={source}
                   onChange={(e) => setSource(e.target.value)}
                   placeholder="Enter city"
-                  className="w-full bg-transparent outline-none text-gray-800"
+                  className="w-full bg-transparent outline-none text-gray-900"
                 />
               </div>
               <motion.button
@@ -246,7 +241,7 @@ const SearchBar = ({ onSearch }) => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.2 }}
-                  className="absolute z-30 left-0 right-0 mt-1 bg-white shadow-lg rounded-lg max-h-60 overflow-y-auto"
+                  className="absolute z-30 left-0 right-0 mt-1 glass shadow-lg rounded-lg max-h-60 overflow-y-auto"
                 >
                   {filteredSourceOptions.map((city, index) => (
                     <motion.div
@@ -261,7 +256,7 @@ const SearchBar = ({ onSearch }) => {
                       }}
                     >
                       <div className="ml-2">
-                        <div className="font-medium text-gray-800">
+                        <div className="font-medium text-gray-900">
                           {city.name}
                         </div>
                         <div className="text-xs text-gray-500 flex items-center">
@@ -285,7 +280,7 @@ const SearchBar = ({ onSearch }) => {
               whileHover={{ rotate: 180, scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={swapLocations}
-              className="p-2 bg-blue-50 rounded-full text-blue-500"
+              className="p-2 bg-blue-50 rounded-full text-blue-500 hover:bg-blue-100"
             >
               <FaExchangeAlt />
             </motion.button>
@@ -295,11 +290,11 @@ const SearchBar = ({ onSearch }) => {
           <div className="relative md:col-span-3">
             <div
               ref={destInputRef}
-              className={`bg-gray-50 rounded-lg p-3 h-full flex items-center space-x-2 border ${
+              className={`glass rounded-lg p-3 h-full flex items-center space-x-2 border ${
                 activeInput === "destination"
                   ? "border-blue-400"
                   : "border-gray-200"
-              }`}
+              } hover:border-blue-300 transition-colors`}
               onClick={() => {
                 setActiveInput("destination");
                 setShowDestOptions(true);
@@ -317,7 +312,7 @@ const SearchBar = ({ onSearch }) => {
                   value={destination}
                   onChange={(e) => setDestination(e.target.value)}
                   placeholder="Enter city"
-                  className="w-full bg-transparent outline-none text-gray-800"
+                  className="w-full bg-transparent outline-none text-gray-900"
                 />
               </div>
               <motion.button
@@ -350,7 +345,7 @@ const SearchBar = ({ onSearch }) => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.2 }}
-                  className="absolute z-30 left-0 right-0 mt-1 bg-white shadow-lg rounded-lg max-h-60 overflow-y-auto"
+                  className="absolute z-30 left-0 right-0 mt-1 glass shadow-lg rounded-lg max-h-60 overflow-y-auto"
                 >
                   {filteredDestOptions.map((city, index) => (
                     <motion.div
@@ -365,7 +360,7 @@ const SearchBar = ({ onSearch }) => {
                       }}
                     >
                       <div className="ml-2">
-                        <div className="font-medium text-gray-800">
+                        <div className="font-medium text-gray-900">
                           {city.name}
                         </div>
                         <div className="text-xs text-gray-500 flex items-center">
@@ -385,7 +380,7 @@ const SearchBar = ({ onSearch }) => {
 
           {/* Date */}
           <div className="md:col-span-2">
-            <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
+            <div className="glass rounded-lg p-3 border border-gray-200 hover:border-blue-300 transition-colors">
               <label className="block text-xs text-gray-500 font-medium">
                 Date
               </label>
@@ -396,7 +391,7 @@ const SearchBar = ({ onSearch }) => {
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
                   min={new Date().toISOString().split("T")[0]}
-                  className="bg-transparent outline-none text-gray-800"
+                  className="bg-transparent outline-none text-gray-900"
                 />
               </div>
             </div>
@@ -404,7 +399,7 @@ const SearchBar = ({ onSearch }) => {
 
           {/* Travelers */}
           <div className="md:col-span-2">
-            <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
+            <div className="glass rounded-lg p-3 border border-gray-200 hover:border-blue-300 transition-colors">
               <label className="block text-xs text-gray-500 font-medium">
                 Travelers
               </label>
@@ -419,7 +414,7 @@ const SearchBar = ({ onSearch }) => {
                   >
                     -
                   </motion.button>
-                  <span className="mx-2 text-gray-800">{travelers}</span>
+                  <span className="mx-2 text-gray-900">{travelers}</span>
                   <motion.button
                     whileTap={{ scale: 0.9 }}
                     onClick={incrementTravelers}
@@ -436,14 +431,14 @@ const SearchBar = ({ onSearch }) => {
           {/* Class */}
           <div className="relative md:col-span-1">
             <div
-              className="bg-gray-50 h-full rounded-lg p-3 border border-gray-200 cursor-pointer flex items-center justify-between"
+              className="glass h-full rounded-lg p-3 border border-gray-200 cursor-pointer flex items-center justify-between hover:border-blue-300 transition-colors"
               onClick={() => {
                 setShowClassOptions(!showClassOptions);
                 setShowSourceOptions(false);
                 setShowDestOptions(false);
               }}
             >
-              <span className="text-gray-800 text-sm">{travelClass.id}</span>
+              <span className="text-gray-900 text-sm">{travelClass.id}</span>
               <FaChevronDown
                 className={`text-gray-500 transition-transform ${
                   showClassOptions ? "rotate-180" : ""
@@ -458,7 +453,7 @@ const SearchBar = ({ onSearch }) => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.2 }}
-                  className="absolute z-30 right-0 mt-1 bg-white shadow-lg rounded-lg w-48"
+                  className="absolute z-30 right-0 mt-1 glass shadow-lg rounded-lg w-48"
                 >
                   {classOptions.map((option) => (
                     <div
@@ -469,7 +464,7 @@ const SearchBar = ({ onSearch }) => {
                         setShowClassOptions(false);
                       }}
                     >
-                      <div className="font-medium text-gray-800">
+                      <div className="font-medium text-gray-900">
                         {option.id}
                       </div>
                       <div className="text-xs text-gray-500">{option.name}</div>

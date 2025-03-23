@@ -1,9 +1,9 @@
 import { Formik, Form, Field } from "formik";
-import { FaTrain, FaUser, FaLock, FaEnvelope } from "react-icons/fa";
+import { FaTrain, FaUser, FaEnvelope, FaLock } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
-const LoginPage = () => {
+const SignUpPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [isMailSent, setIsMailSent] = useState(false);
@@ -29,45 +29,65 @@ const LoginPage = () => {
         {/* Left Side: Train-Themed Background */}
         <div className="hidden md:block md:w-1/2 relative h-[600px] rounded-lg overflow-hidden">
           <img
-            src="assets/images/login_train.avif"
+            src="assets/images/register_train.avif"
             alt="Train Journey"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-transparent flex items-center justify-center">
             <div className="text-white p-8">
               <h2 className="text-4xl font-bold mb-4 flex items-center gap-3">
-                <FaTrain /> Welcome to IRCTC
+                <FaTrain /> Join IRCTC
               </h2>
               <p className="text-lg">
-                Book your train tickets, track journeys, and explore India with
-                ease.
+                Sign up to book train tickets, track journeys, and explore India
+                with ease.
               </p>
             </div>
           </div>
         </div>
 
-        {/* Right Side: Login Form */}
+        {/* Right Side: Sign-Up Form */}
         <div className="w-full md:w-1/2 max-w-md">
           <div className="bg-white p-8 rounded-lg shadow-lg border border-gray-200">
             <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
-              Login
+              Sign Up
             </h2>
             <Formik
-              initialValues={{ username: "", password: "" }}
+              initialValues={{
+                fullName: "",
+                email: "",
+                password: "",
+                confirmPassword: "",
+                agreeTerms: false,
+              }}
               onSubmit={(values) => console.log(values)}
             >
               {({ isSubmitting }) => (
                 <Form className="space-y-6">
                   <div>
                     <label className="block text-sm text-gray-500 mb-2">
-                      Username
+                      Full Name
                     </label>
                     <div className="relative">
                       <FaUser className="absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-400" />
                       <Field
-                        name="username"
+                        name="fullName"
                         type="text"
-                        placeholder="Enter your username"
+                        placeholder="Enter your full name"
+                        className="w-full pl-10 p-3 rounded-lg border border-gray-200 hover:border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors text-gray-900"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm text-gray-500 mb-2">
+                      Email
+                    </label>
+                    <div className="relative">
+                      <FaEnvelope className="absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-400" />
+                      <Field
+                        name="email"
+                        type="email"
+                        placeholder="Enter your email"
                         className="w-full pl-10 p-3 rounded-lg border border-gray-200 hover:border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors text-gray-900"
                       />
                     </div>
@@ -86,17 +106,38 @@ const LoginPage = () => {
                       />
                     </div>
                   </div>
+                  <div>
+                    <label className="block text-sm text-gray-500 mb-2">
+                      Confirm Password
+                    </label>
+                    <div className="relative">
+                      <FaLock className="absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-400" />
+                      <Field
+                        name="confirmPassword"
+                        type="password"
+                        placeholder="Confirm your password"
+                        className="w-full pl-10 p-3 rounded-lg border border-gray-200 hover:border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors text-gray-900"
+                      />
+                    </div>
+                  </div>
                   <div className="flex items-center justify-between">
                     <label className="flex items-center">
                       <Field
                         type="checkbox"
-                        name="remember"
+                        name="agreeTerms"
                         className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                       />
                       <span className="ml-2 text-sm text-gray-600">
-                        Remember me
+                        I agree to the{" "}
+                        <Link
+                          to="/terms"
+                          className="text-blue-600 hover:underline"
+                        >
+                          Terms & Conditions
+                        </Link>
                       </span>
                     </label>
+                    &nbsp;
                     <button
                       type="button"
                       onClick={handleForgotPassword}
@@ -110,15 +151,15 @@ const LoginPage = () => {
                     disabled={isSubmitting}
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium transition-colors"
                   >
-                    Login
+                    Sign Up
                   </button>
                 </Form>
               )}
             </Formik>
             <p className="text-center text-sm text-gray-600 mt-6">
-              Don’t have an account?{" "}
-              <Link to="/signup" className="text-blue-600 hover:underline">
-                Sign Up
+              Already have an account?{" "}
+              <Link to="/login" className="text-blue-600 hover:underline">
+                Login
               </Link>
             </p>
           </div>
@@ -182,4 +223,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default SignUpPage;

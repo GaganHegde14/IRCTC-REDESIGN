@@ -17,6 +17,7 @@ import {
   FaHistory,
   FaRocket,
   FaArrowRight,
+  FaCheck, // Add this line
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { gsap } from "gsap";
@@ -26,7 +27,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 // Sample user data
 const userData = {
-  name: "Priya Sharma",
+  name: "Demo Account",
   points: 3450,
   tier: "Gold",
   memberSince: "Jan 2022",

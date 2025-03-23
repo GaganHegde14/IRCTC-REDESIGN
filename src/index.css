@@ -1,7 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&family=Roboto:wght@400;700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Enable native smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
 
 /* Custom Glassmorphism with Depth */
 .glass {
@@ -46,9 +52,8 @@ body {
   padding: 0;
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
-  scroll-behavior: smooth;
-  background: linear-gradient(135deg, #1e3a8a, #6b21a8);
-  color: #ffffff;
+  background: #f7fafc; /* Tailwind bg-gray-50 */
+  color: #1f2937; /* Default to dark gray (text-gray-900) */
   overflow-x: hidden;
 }
 
@@ -56,15 +61,31 @@ body {
   box-sizing: inherit;
 }
 
-/* Parallax Background */
-.parallax-bg {
-  background-attachment: fixed;
-  background-size: cover;
-  background-position: center;
-  transform: translateZ(0);
+/* Ensure text is readable on light backgrounds */
+.bg-white,
+.bg-gray-50,
+.bg-gray-100 {
+  color: #1f2937; /* Dark gray for readability */
 }
 
-/* Advanced Hover Effects */
+/* Override text color for glassmorphism on light backgrounds */
+.glass {
+  color: #1f2937; /* Dark text for visibility */
+}
+
+/* Fix form elements inside glass or light sections */
+input,
+textarea,
+select {
+  color: #1f2937; /* Dark text */
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #6b7280; /* Gray-500 for placeholders */
+}
+
+/* Hover effects */
 .hover-grow {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -74,7 +95,6 @@ body {
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
 }
 
-/* 3D Card Effect */
 .card-3d {
   perspective: 1000px;
   transition: transform 0.5s ease;
@@ -109,7 +129,7 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
-/* Pulse Animation */
+/* Pulse Glow Animation */
 @keyframes pulseGlow {
   0% {
     box-shadow: 0 0 5px rgba(250, 204, 21, 0.5);
@@ -124,4 +144,53 @@ body {
 
 .pulse-glow {
   animation: pulseGlow 2s infinite;
+}
+/* Train Animation */
+/* Moving Train Animation */
+.moving-train {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 80px;
+  overflow: hidden;
+}
+
+.train {
+  position: absolute;
+  left: -100px; /* Start off-screen */
+  animation: moveTrain 10s linear infinite, bounceTrain 1s ease-in-out infinite;
+}
+
+@keyframes moveTrain {
+  0% {
+    transform: translateX(-100px);
+  }
+  100% {
+    transform: translateX(100vw); /* Move across the entire viewport width */
+  }
+}
+
+@keyframes bounceTrain {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px); /* Subtle vertical bounce */
+  }
+}
+/* Modal Animation */
+.animate-modal {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
