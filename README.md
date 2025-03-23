@@ -62,7 +62,30 @@ This project was developed as part of a hackathon to demonstrate modern web deve
 To run the project locally, follow these steps:
 
 1. **Clone the Repository**:
+
    ```bash
    git clone https://github.com/your-username/irctc-redesign.git
    cd irctc-redesign
    ```
+
+2. **Install Dependencies**;
+
+```bash
+  npm install
+
+
+```
+
+3. **Run the Development Server**;
+
+````bash
+  npm run dev
+    ```
+````
+
+3. **Open in Browser**;
+
+````bash
+  http://localhost:3000
+    ```
+````
