@@ -114,12 +114,12 @@ textarea::placeholder {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #facc15;
+  background: #58595a;
   border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #eab308;
+  background: #89abcb;
 }
 
 /* Gradient Text */
