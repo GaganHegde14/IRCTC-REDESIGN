@@ -61,48 +61,16 @@ const stats = [
 ];
 
 const serviceCategories = [
-  {
-    icon: <MdFlight className="text-3xl" />,
-    title: "FLIGHTS",
-    link: "/flights",
-  },
-  { icon: <MdHotel className="text-3xl" />, title: "HOTELS", link: "/hotels" },
-  {
-    icon: <FaChartLine className="text-3xl" />,
-    title: "RAIL DRISHTI",
-    link: "/rail-drishti",
-  },
-  {
-    icon: <MdRestaurant className="text-3xl" />,
-    title: "E-CATERING",
-    link: "/e-catering",
-  },
-  {
-    icon: <MdDirectionsBus className="text-3xl" />,
-    title: "BUS",
-    link: "/buses",
-  },
-  {
-    icon: <MdLuggage className="text-3xl" />,
-    title: "HOLIDAY PACKAGES",
-    link: "/holidays",
-  },
-  {
-    icon: <MdTrain className="text-3xl" />,
-    title: "TOURIST TRAIN",
-    link: "/tourist-train",
-  },
-  {
-    icon: <FaTrain className="text-3xl" />,
-    title: "HILL RAILWAYS",
-    link: "/hill-railways",
-  },
-  {
-    icon: <MdTrain className="text-3xl" />,
-    title: "CHARTER TRAIN",
-    link: "/charter-train",
-  },
-  { icon: <FaStar className="text-3xl" />, title: "GALLERY", link: "/gallery" },
+  { icon: <MdFlight className="text-3xl" />, title: "FLIGHTS" },
+  { icon: <MdHotel className="text-3xl" />, title: "HOTELS" },
+  { icon: <FaChartLine className="text-3xl" />, title: "RAIL DRISHTI" },
+  { icon: <MdRestaurant className="text-3xl" />, title: "E-CATERING" },
+  { icon: <MdDirectionsBus className="text-3xl" />, title: "BUS" },
+  { icon: <MdLuggage className="text-3xl" />, title: "HOLIDAY PACKAGES" },
+  { icon: <MdTrain className="text-3xl" />, title: "TOURIST TRAIN" },
+  { icon: <FaTrain className="text-3xl" />, title: "HILL RAILWAYS" },
+  { icon: <MdTrain className="text-3xl" />, title: "CHARTER TRAIN" },
+  { icon: <FaStar className="text-3xl" />, title: "GALLERY" },
 ];
 
 const holidayPackages = [
@@ -279,10 +247,9 @@ const LandingPage = () => {
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
             {serviceCategories.map((service, index) => (
-              <Link
+              <div
                 key={index}
-                to={service.link}
-                className="service-item flex flex-col items-center text-center p-4 bg-white rounded-lg hover:shadow-md transition-shadow"
+                className="service-item flex flex-col items-center text-center p-4 bg-white rounded-lg shadow-md"
               >
                 <div className="w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center mb-3">
                   {service.icon}
@@ -290,7 +257,7 @@ const LandingPage = () => {
                 <span className="text-sm font-medium text-gray-800">
                   {service.title}
                 </span>
-              </Link>
+              </div>
             ))}
           </div>
         </div>
