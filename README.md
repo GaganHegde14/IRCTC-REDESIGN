@@ -49,7 +49,7 @@ This project was developed as part of a hackathon to demonstrate modern web deve
 
 - **Frontend**: React.js
 - **Styling**: Tailwind CSS
-- **Animations**: Framer Motion (for interactive elements), Pure CSS (for moving train and other effects)
+- **Animations**: Framer Motion (for interactive elements), Pure CSS
 - **Notifications**: React Hot Toast
 - **Routing**: React Router
 - **Deployment**: Vercel
