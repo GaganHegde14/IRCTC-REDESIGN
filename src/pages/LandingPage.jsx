@@ -30,6 +30,7 @@ import TrainCard from "../components/TrainCard";
 
 const popularRoutes = [
   {
+    id: "1",
     from: "Delhi",
     to: "Mumbai",
     trainNumber: "12952",
@@ -40,6 +41,7 @@ const popularRoutes = [
     price: 1500,
   },
   {
+    id: "2",
     from: "Mumbai",
     to: "Goa",
     trainNumber: "10104",
@@ -142,7 +144,25 @@ const LandingPage = () => {
   }, []);
 
   const handleSearch = (searchParams) => {
-    const { filteredTrains } = searchParams;
+    const { source, destination, date } = searchParams;
+
+    // Filter the popularRoutes based on source, destination, and date
+    const filteredTrains = popularRoutes
+      .filter((train) => {
+        return (
+          (source === "" ||
+            train.from.toLowerCase().includes(source.toLowerCase())) &&
+          (destination === "" ||
+            train.to.toLowerCase().includes(destination.toLowerCase()))
+        );
+      })
+      .map((train) => ({
+        ...train,
+        source: train.from,
+        destination: train.to,
+        date: date || "2025-04-01", // Default date if not provided
+      }));
+
     setSearchResults(filteredTrains);
   };
 
@@ -165,7 +185,6 @@ const LandingPage = () => {
                   e.target.src =
                     "https://via.placeholder.com/1200x400?text=Indian+Railways";
                 }}
-                // onLoad={() => console.log("Image loaded successfully")}
               />
               <div className="absolute inset-0 bg-gradient-to-r from-blue-900/70 to-transparent">
                 <div className="flex flex-col h-full justify-center p-8 md:w-2/3 text-white">
@@ -218,10 +237,10 @@ const LandingPage = () => {
                             departure={train.source}
                             arrival={train.destination}
                             date={train.date}
-                            departureTime="16:05"
-                            arrivalTime="10:00"
-                            duration="17:55"
-                            price={1850}
+                            departureTime={train.departureTime}
+                            arrivalTime={train.arrivalTime}
+                            duration={train.duration}
+                            price={train.price}
                           />
                           <Link
                             to={{
