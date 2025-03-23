@@ -105,31 +105,21 @@ To run the project locally, follow these steps:
    Use /login or /signup to access your account with a split-screen design.
 
    ## Screenshots
+   ![Landing Page](https://github.com/user-attachments/assets/a300568b-2e41-4bf1-9757-10a274d4414a)
+   ![Train List Page](https://github.com/user-attachments/assets/a129f338-687e-4a9d-ac21-f28ae423ecfd)
+   ![Login Page](https://github.com/user-attachments/assets/623e9795-b85c-4dda-9022-d31959e5987e)
+   ![Train Booking](https://github.com/user-attachments/assets/67ec01e2-6a23-4e30-9d0a-44941f4e3e3c)
+   ![Track your train](https://github.com/user-attachments/assets/415e7cfa-e001-4f57-9441-c5d546e21f02)
+   ![Track your train](https://github.com/user-attachments/assets/107c982a-de41-48c7-b99c-5970ed1d2c6e)
+   ![IRCTC Loyalty](https://github.com/user-attachments/assets/92ba394b-4230-4445-bb2e-210387d7f354)
+   ![IRCTC E-Wallet](https://github.com/user-attachments/assets/4a9acda9-6f5e-46de-b96d-ba806338edf5)
+   ![IRCTC Bus Booking](https://github.com/user-attachments/assets/98adfeb0-dfc3-4097-bd85-e2b2ccd6b46f)
+   ![IRCTC Flight Booking](https://github.com/user-attachments/assets/cdec287b-625e-496f-9745-2b42efc2faf1)
+   ![IRCTC Hotel Booking](https://github.com/user-attachments/assets/60cde5ce-b17d-41fc-98e8-b184ec61c856)
+   ![IRCTC E-Catering](https://github.com/user-attachments/assets/78dea032-b26e-49df-87be-c1c71aeac386)
 
-   ![Landing Page](![image](https://github.com/user-attachments/assets/a300568b-2e41-4bf1-9757-10a274d4414a)
-)
-   ![Train List Page](![image](https://github.com/user-attachments/assets/a129f338-687e-4a9d-ac21-f28ae423ecfd)
-)
-   ![Login Page](![image](https://github.com/user-attachments/assets/623e9795-b85c-4dda-9022-d31959e5987e)
-)
-   ![Train Booking](![image](https://github.com/user-attachments/assets/67ec01e2-6a23-4e30-9d0a-44941f4e3e3c)
-)
-   ![Track your train](![image](https://github.com/user-attachments/assets/415e7cfa-e001-4f57-9441-c5d546e21f02)
-)
-   ![Track your train](![image](https://github.com/user-attachments/assets/107c982a-de41-48c7-b99c-5970ed1d2c6e)
-)
-   ![IRCTC Loyalty](![image](https://github.com/user-attachments/assets/92ba394b-4230-4445-bb2e-210387d7f354)
-)
-   ![IRCTC E-Wallet](![image](https://github.com/user-attachments/assets/4a9acda9-6f5e-46de-b96d-ba806338edf5)
-)
-   ![IRCTC Bus Booking](![image](https://github.com/user-attachments/assets/98adfeb0-dfc3-4097-bd85-e2b2ccd6b46f)
-)
-   ![IRCTC Flight Booking](![image](https://github.com/user-attachments/assets/cdec287b-625e-496f-9745-2b42efc2faf1)
-)
-   ![IRCTC Hotel Booking](![image](https://github.com/user-attachments/assets/60cde5ce-b17d-41fc-98e8-b184ec61c856)
-)
-    ![IRCTC E-Catering](![image](https://github.com/user-attachments/assets/78dea032-b26e-49df-87be-c1c71aeac386)
-)
+   
+
    
 ## Deployment
 
