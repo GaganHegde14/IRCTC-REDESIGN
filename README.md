@@ -2,7 +2,6 @@
 
 Welcome to the **IRCTC Redesign** project—a modern, user-friendly train booking application built with React, Tailwind CSS, and Framer Motion. This project aims to enhance the user experience of booking train tickets with a clean UI, advanced animations, and a premium look, designed to stand out in a hackathon.
 
-![IRCTC Redesign Banner](https://via.placeholder.com/1200x400.png?text=IRCTC+Redesign+Banner)
 
 ---
 
@@ -152,3 +151,4 @@ Vercel: For seamless deployment.
 FontAwesome: For the icons used throughout the app.
 
 Built with 💻 and 🚂 by Gagan Hegde.
+Linktree - https://linktr.ee/gagan_.hegde
